@@ -1,0 +1,291 @@
+## Module: Database-Technology
+# Assignment No. 06 Date: 31/10/2020
+
+-- Login as edac user
+cmd> mysql -u edac -p
+password: ****
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Activate Sales Database
+USE Sales;
+
+-- Check which user and database is currently in use
+SELECT USER(), DATABASE();
+
+
+1. Write a query that counts the number of salespeople registering orders for eachday. (If a salesperson
+has more than one order on a given day, he or she should be counted only once).
+
+SELECT odate,  COUNT(DISTINCT Snum) as 'No of Salespeople'
+FROM orders
+GROUP BY odate;
+
+
+
+2. Write a query on the Customers table that will find the highest rating in each city. Put the output in this
+form: For the city (city), the highest rating is : (rating).
+
+SELECT CONCAT('For the city ',city,' the highest rating is ',MAX(rating)) 'City with Highest Rating'
+FROM customers 
+GROUP BY city;
+
+
+
+3. Write a query that totals the orders for each day and places the results in descending order.
+
+SELECT odate, COUNT(onum)
+FROM orders
+GROUP BY odate
+ORDER BY COUNT(onum);
+
+
+
+4. Write a query that selects the total amount in orders for each salesperson for whom this total is greater
+than the amount of the largest order in the table.
+
+SELECT snum, SUM(amt)
+FROM orders
+GROUP BY snum
+HAVING SUM(amt) > MAX(amt)
+ORDER BY 2 DESC
+LIMIT 1;
+
+
+
+5. Write a query that selects the highest rating in each city.
+
+SELECT city, MAX(rating)
+FROM Customers
+GROUP BY city;
+
+
+
+6. Largest order taken by each salesperson with order value more than Rs.3000.
+
+SELECT snum, MAX(amt)
+FROM orders
+WHERE amt > 3000
+GROUP BY snum;
+
+
+7. Select each customer smallest order.
+
+SELECT snum, MIN(amt)
+FROM orders
+GROUP BY snum;
+
+
+
+
+
+
+-- Activate Sales Database
+USE hr;
+
+-- Check which user and database is currently in use
+SELECT USER(), DATABASE();
+
+
+
+1. Display manager ID and number of employees managed by the manager.
+
+SELECT manager_id, COUNT(employee_id) 'Employee Managed'
+FROM employees
+GROUP BY manager_id;
+
+
+
+2. Display the country ID and number of cities we have in the country.
+
+SELECT country_id, COUNT(city)
+FROM locations
+GROUP BY country_id;
+
+
+
+3. Display average salary of employees in each department who have commission percentage.
+
+SELECT department_id, AVG(salary)
+FROM employees
+WHERE commission_pct IS NOT NULL
+GROUP BY department_id;
+
+
+
+4. Display job ID, number of employees, sum of salary, and difference between highest salary and lowest
+salary of the employees of the job.
+
+SELECT job_id, COUNT(employee_id) 'No. of Employees', SUM(salary), MAX(salary) - MIN(salary) Difference
+FROM employees
+GROUP BY job_id;
+
+
+
+5. Display job ID for jobs with average salary more than 10000.
+
+SELECT job_id, ROUND(AVG(salary), 2) 'Avg Sal'
+FROM employees
+WHERE salary > 10000
+GROUP BY job_id;
+
+
+
+6. Display years in which more than 10 employees joined.
+
+SELECT YEAR(hire_date) Years, COUNT(hire_date)
+FROM employees
+GROUP BY YEAR(hire_date)
+HAVING COUNT(YEAR(hire_date)) > 10;
+
+
+
+7. Display departments in which more than five employees have commission percentage.
+
+SELECT department_id, COUNT(commission_pct)
+FROM employees
+GROUP BY department_id
+HAVING COUNT(commission_pct) > 5;
+
+
+
+8. Display employee ID for employees who did more than one job in the past.
+
+SELECT employee_id, COUNT(employee_id)
+FROM job_history
+GROUP BY employee_id
+HAVING COUNT(employee_id) > 1;
+
+
+
+9. Display job ID of jobs that were done by more than 3 employees for more than 100 days.
+
+SELECT job_id
+FROM job_history
+WHERE DATEDIFF(end_date, start_date)>100
+GROUP BY job_id
+HAVING COUNT(employee_id)>3;
+
+
+
+10. Display department ID, year, and Number of employees joined.
+
+SELECT department_id, YEAR(hire_date) YEAR, COUNT(employee_id) 'No Of Emp Joined'
+FROM Employees
+GROUP BY department_id, YEAR(hire_date);
+
+
+
+11. Display how many employees joined in each month of the current year.
+
+SELECT MONTHNAME(hire_date) 'JOINING MONTH', COUNT(hire_date) 'No Of Emp Joined'
+FROM Employees
+WHERE YEAR(hire_date) = YEAR(NOW())
+GROUP BY MONTHNAME(hire_date);
+
+
+
+12. Display details of departments in which the maximum salary is more than 10000.
+
+SELECT department_id, MAX(salary)
+FROM Employees
+GROUP BY department_id
+HAVING MAX(salary) > 10000;
+
+
+-- Activate Sales Database
+USE dacdb;
+
+-- Check which user and database is currently in use
+SELECT USER(), DATABASE();
+
+
+1. Print the employee to whom maximum number of employee reports.
+
+SELECT mgr, COUNT(ename)
+FROM Emp
+GROUP BY mgr
+ORDER BY COUNT(ename) DESC
+LIMIT 1;
+
+
+
+2. Print the total number of employees not reporting to MANAGER and PRESIDENT.
+
+SELECT *
+FROM emp
+WHERE mgr NOT IN (7566,7698,7782,7839) OR mgr IS NULL;
+ 
+
+
+3. Print the number of CLERK in each department.
+
+
+SELECT deptno, COUNT(job)
+FROM emp
+WHERE job = 'CLERK'
+GROUP BY deptno;
+
+
+
+4. Print the years for which recruited emp salary average is above 2000.
+
+SELECT YEAR(hire) YEAR, ROUND(AVG(sal), 2) 'AVG SAL'
+FROM Emp
+GROUP BY YEAR(hire)
+HAVING AVG(sal) > 2000;
+
+
+
+5. Print employees recruited per month in sorted order of count. If
+count is same, then follow alphabetical order of month name.
+month cnt
+Apr 1
+Jun 1
+May 1
+Nov 1
+Feb 2
+Jan 2
+Sep 2
+Dec 4
+
+
+SELECT SUBSTRING(MONTHNAME(hire), 1, 3) month, COUNT(MONTH(hire)) cnt
+FROM Emp
+GROUP BY month
+ORDER BY cnt, month;
+
+
+
+6. Count the number of employees getting commission and not getting
+commission.
+Category Count
+Comm 10
+No Comm 4
+
+SELECT 
+CASE 
+WHEN comm IS NOT NULL THEN 'Comm'
+ELSE 'No comm'
+END As Category ,COUNT(*)
+FROM emp
+GROUP BY category;
+
+
+
+
+7. Print number of employees hired on each day (other than weekend)
+in descending order.
+Day Count
+Thursday 4
+Tuesday 3
+Wednesday 2
+Friday 2
+Monday 1
+
+SELECT DAYNAME(hire) Day, COUNT(empno)
+FROM Emp
+WHERE DAYNAME(hire) != 'Saturday' AND DAYNAME(hire) != 'SUNDAY'
+GROUP BY Day
+ORDER BY 2 DESC;
