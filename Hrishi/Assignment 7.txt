@@ -1,0 +1,265 @@
+## sales DATABASE
+
+mysql -u edac -pedac sales
+
+--1. Write a query that lists each order number followed by the name of the customer who made the order.
+
+    SELECT o.onum,c.cname 
+    FROM orders o 
+    INNER JOIN customers c ON o.cnum = c.cnum;
+
+--2. Write a query that gives the names of both the salesperson and the customer for each order along with the order number.
+
+    SELECT o.onum,c.cname,s.sname 
+    FROM orders o 
+    INNER JOIN customers c ON o.cnum = c.cnum 
+    INNER JOIN salespeople s ON s.snum = o.snum;
+
+--3. Write a query that produces all customers serviced by salespeople with a commission above 12%. Output the customer’s name, the salesperson’s name, and the salesperson’s rate of commission.
+
+    SELECT c.cname,s.sname,s.comm 
+    FROM customers c 
+    INNER JOIN salespeople s ON s.snum = c.snum 
+    WHERE comm > 0.12;
+
+--4. Write a query that calculates the amount of the salesperson’s commission on each order by a customer with a rating above 100.
+
+    SELECT o.onum,o.amt,s.comm,ROUND(amt*comm,2) "COMM AMT" 
+    FROM orders o 
+    INNER JOIN salespeople s ON o.snum = s.snum 
+    INNER JOIN customers c ON o.cnum = c.cnum 
+    WHERE c.rating>100
+    ORDER BY o.onum;   
+ 
+--5. Write a query that produces all pairs of salespeople who are living in the same city.Exclude combinations of salespeople with themselves as well as duplicate rows with the order reversed.
+
+    SELECT s.sname,c.sname,s.city FROM salespeople s
+    INNER JOIN salespeople c ON s.city = c.city AND s.snum < c.snum;
+
+## spj DATABASE
+
+mysql -u sunbeam -psunbeam spj
+
+--1. Display the Supplier name and the Quantity sold.
+
+    SELECT s.sname,sp.qty 
+    FROM sp 
+    INNER JOIN s ON s.`s#`= sp.`s#`;
+
+--2. Display the Part name and Quantity sold.
+
+    SELECT p.pname,sp.qty 
+    FROM p INNER JOIN sp ON p.`p#` = sp.`p#`;
+
+--3. Display the Project name and Quantity sold.
+
+    SELECT j.jname,sp.qty 
+    FROM j INNER JOIN sp ON j.`j#`=sp.`j#`;
+
+--4. Display the Supplier name, Part name, Project name and Quantity sold.
+
+    SELECT s.sname,p.pname,j.jname,sp.qty 
+    FROM sp 
+    INNER JOIN p ON p.`p#`= sp.`p#` 
+    INNER JOIN j ON j.`j#`= sp.`j#` 
+    INNER JOIN s ON s.`s#`= sp.`s#`;
+
+--5. Display the Supplier name, Supplying Parts to a Project in the same City.
+
+    SELECT s.sname,j.jname,j.city 
+    FROM s 
+    INNER JOIN j ON s.city = j.city;
+
+--6. Display the Part name that is ‘Red’ in color, and the Quantity sold.
+
+    SELECT p.pname,p.color,sp.qty 
+    FROM p 
+    INNER JOIN sp ON p.`p#`= sp.`p#` 
+    WHERE color = 'red';
+
+--7. Display all the Quantity sold by Suppliers with the Status = 20.
+
+    SELECT s.sname,p.pname,SUM(sp.qty) qty 
+    FROM sp 
+    INNER JOIN p ON p.`p#`= sp.`p#` 
+    INNER JOIN s ON s.`s#`= sp.`s#` 
+    WHERE s.status=20 
+    GROUP BY p.pname,s.sname;
+
+--8. Display all the Parts and Quantity with a Weight > 14.
+
+    SELECT p.pname,p.weight,SUM(sp.qty) 
+    FROM p 
+    INNER JOIN sp ON p.`p#`= sp.`p#` 
+    WHERE p.weight>14 
+    GROUP BY p.pname,p.weight; 
+
+--9. Display all the Project names and City, which has bought more than 500 Parts.
+
+    SELECT j.jname,j.city,sp.qty 
+    FROM sp 
+    INNER JOIN j ON j.`j#`= sp.`j#` 
+    WHERE sp.qty > 500; 
+
+--10. Display all the Part names and Quantity sold that have a Weight less than 15.
+
+    SELECT p.pname,p.weight,SUM(sp.qty) qty
+    FROM p 
+    INNER JOIN sp ON p.`p#`= sp.`p#` 
+    WHERE p.weight<15 
+    GROUP BY p.pname,p.weight;
+
+--11. Display all the Suppliers with the same Status as the supplier, ‘CLARK’.
+
+    SELECT s.sname 'supplier name', s.status
+    FROM s
+    INNER JOIN s c ON s.status = c.status
+    WHERE c.sname = 'clark' AND s.sname != 'clark';
+
+--13. Display all the Parts which have more Weight than all the Red parts.
+
+    SELECT pname 'part name', weight
+    FROM p 
+    WHERE weight > (SELECT MAX(weight) FROM p WHERE color = 'red');
+
+--14. Display all the Projects going on in the same city as the project ‘TAPE’.
+
+    SELECT jname, city
+    FROM j
+    WHERE city = (SELECT city FROM j WHERE jname = 'tape'); 
+
+--15. Display all the Parts with Weight less than all the Green parts.
+
+    SELECT pname 'part name', weight
+    FROM p 
+    WHERE weight < (SELECT MIN(weight) FROM p WHERE color = 'green');
+
+--16. Display the name of the Supplier who has sold the maximum Quantity (in onesale).
+
+    SELECT s.sname, MAX(sp.qty) 
+    FROM sp
+    INNER JOIN s ON s.`s#`= sp.`s#`
+    GROUP BY s.sname;
+
+--18. Display the name of the Supplier who has sold the maximum overall Quantity (sumof Sales).
+
+    SELECT s.sname, MAX(sp.qty) 
+    FROM sp
+    INNER JOIN s ON s.`s#`= sp.`s#`
+    GROUP BY s.sname 
+    ORDER BY MAX(sp.qty) DESC LIMIT 1;
+
+## HR DATABASE
+
+mysql -u edac -pedac hr
+
+--1. Display department name and manager first name.
+
+    SELECT d.department_name, e.first_name 
+    FROM departments d 
+    INNER JOIN employees e ON d.manager_id = e.employee_id;
+
+--2. Display department name, manager name, and city.
+
+    SELECT d.department_name, e.first_name, l.city 
+    FROM departments d 
+    INNER JOIN employees e ON d.manager_id = e.employee_id
+    INNER JOIN locations l ON d.location_id = l.location_id; 
+
+--3. Display country name, city, and department name.
+
+    SELECT c.country_name, l.city, d.department_name
+    FROM locations l
+    INNER JOIN countries c ON l.country_id = c.country_id
+    RIGHT OUTER JOIN departments d on l.location_id = d.location_id; 
+
+--4. Display job title, department name, employee last name, starting date for all jobs from 1993 to 1998.
+
+    SELECT j.job_title, d.department_name, e.last_name, h.start_date
+    FROM employees e
+    INNER JOIN jobs j ON e.job_id = j.job_id
+    INNER JOIN departments d  ON e.department_id = d.department_id
+    INNER JOIN job_history h  ON e.employee_id = h.employee_id 
+    WHERE YEAR(start_date) BETWEEN 1993 AND 1998; 
+
+--5. Display job title and average salary of employees.
+
+    SELECT j.job_title, AVG(e.salary) 'average salary' 
+    FROM employees e
+    INNER JOIN jobs j ON e.job_id = j.job_id
+    GROUP BY j.job_title;
+
+--6. Display job title, employee name, and the difference between maximum salary for the job and salary of the employee.
+
+    SELECT j.job_title, CONCAT(e.first_name,' ', e.last_name) Name, j.max_salary, e.salary, (j.max_salary - e.salary) 'salary diff'
+    FROM employees e
+    INNER JOIN jobs j ON e.job_id = j.job_id;
+
+--7. Display last name, job title of employees who have commission percentage and belongs to department 30.
+
+    SELECT e.last_name, j.job_title,commission_pct
+    FROM employees e
+    INNER JOIN jobs j ON e.job_id = j.job_id
+    WHERE commission_pct IS NOT NULL AND department_id = 30;
+
+--8. Display details of jobs that were done by any employee who is currently drawing more than 15000 of salary.
+
+    SELECT h.* 
+    FROM job_history h
+    INNER JOIN employees e ON e.employee_id = h.employee_id
+    WHERE e.salary > 15000;
+
+--9. Display department name, manager name, and salary of the manager for all managers whose experience is more than 5 years.
+
+    SELECT d.department_name, CONCAT(e.first_name,' ', e.last_name) Name, e.salary
+    FROM departments d
+    INNER JOIN employees e ON d.manager_id = e.employee_id
+    WHERE TIMESTAMPDIFF(year, hire_date, NOW()) > 5;
+
+--10. Display employee name if the employee joined before his manager.
+
+    SELECT CONCAT(e1.first_name,' ', e1.last_name) Name
+    FROM employees e1
+    JOIN employees e2 ON (e1.manager_id = e2.employee_id) 
+    WHERE e1.hire_date < e2.hire_date;
+
+--11. Display employee name, job title for the jobs employee did in the past where the job was done less than six months.
+
+    SELECT CONCAT(e.first_name,' ', e.last_name) Name ,job_title
+    FROM employees e
+    INNER JOIN job_history h  ON e.employee_id = h.employee_id
+    INNER JOIN jobs j ON h.job_id = j.job_id
+    WHERE TIMESTAMPDIFF(month, h.end_date, h.start_date) < 6;
+
+--12. Display employee name and country in which he is working.
+
+    SELECT CONCAT(e.first_name,' ', e.last_name) Name , country_name
+    FROM employees e
+    INNER JOIN departments d ON e.department_id = d.department_id
+    INNER JOIN locations l ON d.location_id = l.location_id
+    INNER JOIN countries c ON l.country_id = c.country_id;
+    
+--13. Display department name, average salary and number of employees with commission within the department.
+
+    SELECT d.department_name, AVG(e.salary) "average salary", COUNT(*) "commission"
+    FROM employees e
+    INNER JOIN departments d ON e.department_id = d.department_id
+    GROUP BY d.department_name;
+
+--14. Display the month in which more than 5 employees joined in any department located in Sydney.
+
+    SELECT YEAR(e.hire_date),MONTH(e.hire_date), l.city, COUNT(*)
+    FROM employees e
+    INNER JOIN departments d ON e.department_id = d.department_id
+    INNER JOIN locations l ON d.location_id = l.location_id
+    WHERE l.city = 'sydney'
+    GROUP BY YEAR(e.hire_date), MONTH(e.hire_date)
+    WHERE COUNT(*) > 5;
+
+--15. Display employee name, job title, start date, and end date of past jobs of all employees with commission percentage null. 
+
+    SELECT e.first_name, e.last_name, job_title, h.start_date, h.end_date
+    FROM employees e
+    INNER JOIN job_history h  ON e.employee_id = h.employee_id
+    INNER JOIN jobs j ON h.job_id = j.job_id
+    WHERE commission_pct = 0;
