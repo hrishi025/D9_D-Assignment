@@ -48,9 +48,7 @@ than the amount of the largest order in the table.
 SELECT snum, SUM(amt)
 FROM orders
 GROUP BY snum
-HAVING SUM(amt) > MAX(amt)
-ORDER BY 2 DESC
-LIMIT 1;
+HAVING SUM(amt) > MAX(amt);
 
 
 

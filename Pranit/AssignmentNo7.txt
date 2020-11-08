@@ -148,6 +148,13 @@ GROUP BY P.pname;
 SELECT DISTINCT j.jname, j.city, SUM(SP.qty)
 FROM j
 INNER JOIN sp ON j.`j#` = sp.`j#`
+GROUP BY j.jname, j.city
+HAVING SUM(sp.qty) >500;
+
+
+SELECT DISTINCT j.jname, j.city, SUM(SP.qty)
+FROM j
+INNER JOIN sp ON j.`j#` = sp.`j#`
 WHERE sp.qty >500
 GROUP BY j.jname, j.city;
 
@@ -310,11 +317,13 @@ WHERE e.salary > 15000;
 9. Display department name, manager name, and salary of the manager for all managers whose
 experience is more than 5 years.
 
+
 SELECT d.department_name, e.first_name Manager, e.salary
-FROM employees e
-INNER JOIN departments d ON e.employee_id = d.manager_id
-INNER JOIN job_history h ON d.department_id = h.department_id
+FROM departments d
+INNER JOIN employees e ON e.employee_id = d.manager_id
+INNER JOIN job_history h ON e.employee_id = h.employee_id
 WHERE TIMESTAMPDIFF(YEAR, h.start_date, h.end_date) >= 5;
+
 
 
 10. Display employee name if the employee joined before his manager.
@@ -356,7 +365,10 @@ GROUP BY d.department_name;
 14. Display the month in which more than 5 employees joined in any department located in Sydney.
 
 SELECT MONTHNAME(hire_date), COUNT(employee_id)
-FROM Employees
+FROM Employees e
+INNER JOIN departments d ON e.department_id = d.department_id
+INNER JOIN locations l ON d.location_id = l.location_id
+WHERE city = 'sydney'
 GROUP BY MONTHNAME(hire_date)
 HAVING COUNT(employee_id) > 5;
 

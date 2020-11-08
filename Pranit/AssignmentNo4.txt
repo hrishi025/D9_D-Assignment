@@ -1,0 +1,198 @@
+## Module: Database-Technology
+# Assignment No. 04 Date: 26/10/2020
+# Northwind Database
+
+-- Login as edac user
+cmd> mysql -u edac -p
+password: ****
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Activate Sales Database
+USE Northwind;
+
+-- Check which user and database is currently in use
+SELECT USER(), DATABASE();
+
+1. Write a query to get Product name and quantity/unit
+
+DESCRIBE products;
+
+SELECT ProductName, QuantityPerUnit
+FROM products;
+
+
+2. Write a query to get current Product list (Product ID and name)
+
+DESCRIBE products;
+
+SELECT ProductID, ProductName
+FROM products
+WHERE UnitsInStock > 0;
+
+
+3. Write a query to get Product list (id, name, unit price) where current products cost less than $20.
+
+DESCRIBE products;
+
+SELECT ProductID, ProductName, UnitPrice
+FROM products
+WHERE UnitPrice < 20;
+
+
+4. Write a query to get Product list (id, name, unit price) where products cost between $15 and $25.
+
+DESCRIBE products;
+
+SELECT ProductID, ProductName, UnitPrice
+FROM products
+WHERE UnitPrice BETWEEN 15 AND 25;
+
+
+5. Write a query to get CategoryName and Description from the Categories table.
+
+DESCRIBE Categories;
+
+SELECT CategoryName, Description
+FROM Categories;
+
+
+6. Write a query to get ContactName, CompanyName, ContactTitle and Phone from the Customers table.
+
+DESCRIBE customers;
+
+SELECT ContactName, CompanyName, ContactTitle, Phone
+FROM Customers;
+
+
+7. Write a query to get EmployeeID, Title, FirstName, LastName, and Region from the Employees table.
+
+DESCRIBE Employees;
+
+SELECT EmployeeID, Title, FirstName, LastName, Region
+FROM Employees;
+
+
+8. Write a query to get RegionID and RegionDescription from the Region table.
+
+DESCRIBE Region;
+
+SELECT RegionID, RegionDescription
+FROM Region;
+
+
+9. Write a query to get CompanyName, Fax, Phone and HomePage from the Suppliers table.
+
+DESCRIBE Suppliers;
+
+SELECT CompanyName, Fax, Phone, HomePage
+FROM Suppliers;
+
+
+10. Write a query to get CategoryName and Description from the Categories table sorted by CategoryName.
+
+DESCRIBE Categories;
+
+SELECT CategoryName, Description
+FROM Categories
+ORDER BY CategoryName;
+
+
+11. Write a query to get ContactName, CompanyName, ContactTitle, and Phone from the Customers
+table sorted by Phone.
+
+DESCRIBE customers;
+
+SELECT ContactName, CompanyName, ContactTitle, Phone
+FROM Customers
+ORDER BY Phone;
+
+
+12. Create a report showing employees first and last names and hire dates sorted from newest to oldest
+employee.
+
+DESCRIBE Employees;
+
+SELECT FirstName, LastName, HireDate
+FROM Employees
+ORDER BY HireDate;
+
+
+13. Create a report showing Northwinds orders sorted by Freight from most expensive to cheapest.
+Show OrderID, OrderDate, ShippedDate, CustomerID, and Freight.
+
+DESCRIBE Orders;
+
+SELECT OrderID, OrderDate, ShippedDate, CustomerID, Freight
+FROM Orders
+ORDER BY Freight DESC;
+
+
+14. Write a query to get CompanyName, Fax, Phone, HomePage and Country from the Suppliers table
+sorted by Country in descending order and then by CompanyName in ascending order.
+
+DESCRIBE Suppliers;
+
+SELECT CompanyName, Fax, Phone, Country
+FROM Suppliers
+ORDER BY Country DESC, CompanyName;
+
+
+15. Create a list of employees showing title, first name, and last name. Sort by Title in ascending order
+and then by LastName in descending order.
+
+DESCRIBE Employees;
+
+SELECT Title, FirstName, LastName
+FROM Employees
+ORDER BY Title, LastName DESC;
+
+
+16. Create a report showing all the company names and contact names of Northwind customers in
+Buenos Aires.
+
+DESCRIBE Customers;
+
+SELECT CompanyName, ContactName
+FROM Customers
+WHERE city = 'Buenos Aires';
+
+
+17. Create a report showing the product name, unit price and quantity per unit of all products that are
+out of stock.
+
+DESCRIBE Products;
+
+SELECT ProductName, UnitPrice, QuantityPerUnit, UnitsInStock
+FROM Products
+WHERE UnitsInStock = 0;
+
+
+18. Create a report showing the order date, shipped date, customer id, and freight of all orders placed on
+May 19, 1997.
+
+DESCRIBE Orders;
+
+SELECT OrderDate, ShippedDate, CustomerID, Freight
+FROM Orders
+WHERE OrderDate = '1997-05-19';
+
+
+19. Create a report that shows the company name, contact name and fax number of all customers that
+have a fax number.
+
+DESCRIBE Customers;
+
+SELECT ContactName, ContactName, Fax
+FROM Customers
+WHERE Fax IS NOT NULL;
+
+
+20. Create a report that shows the first and last name of all employees who do not report to anybody.
+
+DESCRIBE Employees;
+
+SELECT FirstName, LastName
+FROM Employees
+WHERE ReportsTo IS NULL;

@@ -1,0 +1,99 @@
+module:- Database_Technology
+
+Step 1: -- Login as root user
+cmd> mysql -u root -p
+password: **********
+
+-- Show All the Databases
+SHOW DATABASES;
+
+Step 2: --Create new Database
+CREATE DATABASE spj;
+
+Step 3: --Create new User
+CREATE USER sunbeam@localhost IDENTIFIED BY 'sunbeam';
+
+Step 4: -- Grant all Privileges to edac user 
+GRANT ALL PRIVILEGES ON spj.* TO sunbeam@localhost;
+
+--Flush all Privileges
+FLUSH PRIVILEGES;
+
+-- Show All the Databases
+SHOW DATABASES;
+
+--Exit From Current User
+EXIT;
+
+
+Step 5: -- Login as sunbeam user
+cmd> mysql -u sunbeam -p
+password: *******
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Check which user and database is currently in use   --> Shows: USER:sube@localhost and Database: NULL
+SELECT USER(), DATABASE();
+
+-- Activate hr Database
+USE spj;
+
+-- Check which user and database is currently in use   --> Shows: USER:sunbeam@localhost and Database: spj
+SELECT USER(), DATABASE();
+
+
+Step 6: -- create table as S and Insert Data
+CREATE TABLE S (`S#` CHAR(5) NOT NULL, Sname CHAR(20), Status SMALLINT, city CHAR(15));
+
+-- Check Table Structure
+DESCRIBE S;
+
+-- Insert given Data
+INSERT INTO S VALUES ('S1', 'Smith', 20, 'London'), ('S2', 'jones', 10, 'Paris'), ('S3', 'Blake', 30, 'Paris'), ('S4', 'Clark', 20, 'London'), ('S5', 'Adams', 30, 'Athens');
+
+-- Check Table Content
+SELECT * FROM S;
+
+
+Step 7: -- create table as P and Insert Data
+CREATE TABLE P(`P#` CHAR(6) NOT NULL, Pname CHAR(20), Color CHAR(6), Weight SMALLINT, CITY CHAR(15));
+
+-- Check Table Structure
+DESCRIBE P;
+
+-- Insert given Data
+INSERT INTO P VALUES ('P1', 'Nut', 'Red', 12, 'London'), ('P2', 'Bolt', 'Green', 17, 'Paris'), ('P3', 'Screw', 'Blue', 17, 'Rome'), ('P4', 'Screw', 'Red', 14, 'London'), ('P5', 'Cam', 'Blue', 12, 'Paris'), ('P6', 'Cog', 'Red', 19, 'London');
+
+-- Check Table Content
+SELECT * FROM P;
+
+
+Step 8: -- create table as J and Insert Data
+CREATE TABLE J(`J#` CHAR(4) NOT NULL, Jname CHAR(10), City CHAR(15));
+
+-- Check Table Structure
+DESCRIBE J;
+
+-- Insert given Data
+INSERT INTO J VALUES ('J1', 'Sorter', 'Paris'), ('J2', 'Punch', 'Rome'), ('J3', 'Reader', 'Athens'), ('J4', 'Console', 'Athens'), ('J5', 'Collator', 'London'), ('J6', 'Terminal', 'Oslo'), ('J7', 'Tape', 'London');
+
+-- Check Table Content
+SELECT * FROM J;
+
+
+Step 9: -- create table as SP and Insert Data
+CREATE TABLE SP(`S#` CHAR(4) NOT NULL, `P#` CHAR(4) NOT NULL, `J#` CHAR(4) NOT NULL, QTY INT);
+
+-- Check Table Structure
+DESCRIBE SP;
+
+
+-- Insert given Data
+INSERT INTO SP VALUES ('S1', 'P1', 'J1', 200), ('S1', 'P1', 'J4', 700), ('S2', 'P3', 'J1', 400), ('S2', 'P3', 'J2', 200), ('S2', 'P3', 'J3', 200), ('S2', 'P3', 'J4', 500),
+('S2', 'P3', 'J5', 600), ('S2', 'P3', 'J6', 400), ('S2', 'P3', 'J7', 800), ('S2', 'P5', 'J2', 100), ('S3', 'P3', 'J1', 200), ('S3', 'P4', 'J2', 500),
+('S4', 'P6', 'J3', 300), ('S4', 'P6', 'J7', 300), ('S5', 'P2', 'J2', 200), ('S5', 'P2', 'J4', 100), ('S5', 'P5', 'J5', 500), ('S5', 'P5', 'J7', 100),
+('S5', 'P6', 'J2', 200), ('S5', 'P1', 'J4', 100), ('S5', 'P3', 'J4', 200), ('S5', 'P4', 'J4', 800), ('S5', 'P5', 'J4', 400), ('S5', 'P6', 'J4', 500);
+
+-- Check Table Content
+SELECT * FROM SP;
