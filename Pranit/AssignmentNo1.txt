@@ -1,0 +1,216 @@
+module:- Database_Technology
+
+Question 01:-
+
+-- Login as root user
+cmd> mysql -u root -p
+password: **********
+
+-- Show All the Databases
+SHOW DATABASES;
+
+--Create new Database
+CREATE DATABASE hr;
+
+-- Grant all Privileges to edac user 
+GRANT ALL PRIVILEGES ON hr.* TO edac@localhost;
+
+--Flush all Privileges
+FLUSH PRIVILEGES;
+
+-- Show All the Databases
+SHOW DATABASES;
+
+--Exit From Current User
+EXIT;
+
+
+-- Login as edac user
+cmd> mysql -u edac -p
+password: ****
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Check which user and database is currently in use   --> Shows: USER:edac@localhost and Database: NULL
+SELECT USER(), DATABASE();
+
+-- Activate hr Database
+USE hr;
+
+-- Check which user and database is currently in use   --> Shows: USER:edac@localhost and Database: hr
+SELECT USER(), DATABASE();
+
+--Importing data into database Using SOURCE command
+SOURCE E:\CDAC\Modules\Database_Technology\data\hr-db.sql
+
+-- print tables in current database
+SHOW TABLES;
+
+-- See the data Present in the Tables
+SELECT * FROM countries;
+SELECT * FROM departments;
+SELECT * FROM employees;
+SELECT * FROM job_history;
+SELECT * FROM jobs;
+SELECT * FROM locations;
+SELECT * FROM regions;
+
+--Print Structure of tables
+DESCRIBE countries;
+DESCRIBE departments;
+DESCRIBE employees;
+DESCRIBE job_history;
+DESCRIBE jobs;
+DESCRIBE locations;
+DESCRIBE regions;
+
+--Exit From Current User
+EXIT;
+
+
+
+
+Question 02:-
+
+-- Login as root user
+cmd> mysql -u root -p
+password: **********
+
+-- Show All the Databases
+SHOW DATABASES;
+
+--Create new Database
+CREATE DATABASE northwind;
+
+-- Grant all Privileges to edac user 
+GRANT ALL PRIVILEGES ON northwind.* TO edac@localhost;
+
+--Flush all Privileges
+FLUSH PRIVILEGES;
+
+-- Show All the Databases
+SHOW DATABASES;
+
+--Exit From Current User
+EXIT;
+
+
+-- Login as edac user
+cmd> mysql -u edac -p
+password: ****
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Check which user and database is currently in use   --> Shows: USER:edac@localhost and Database: NULL
+SELECT USER(), DATABASE();
+
+-- Activate northwind Database
+USE northwind;
+
+-- Check which user and database is currently in use   --> Shows: USER:edac@localhost and Database: northwind
+SELECT USER(), DATABASE();
+
+--Importing data into database Using SOURCE command
+SOURCE E:\CDAC\Modules\Database_Technology\data\northwind-db.sql
+
+-- print tables in current database
+SHOW TABLES;
+
+-- See the data Present in the Tables
+SELECT * FROM categories;
+SELECT * FROM customercustomerdemo;
+SELECT * FROM customerdemographics;
+SELECT * FROM customers;
+SELECT * FROM employees;
+SELECT * FROM employeeterritories;
+SELECT * FROM orderdetails;
+SELECT * FROM orders;
+SELECT * FROM products;
+SELECT * FROM region;
+SELECT * FROM shippers;
+SELECT * FROM suppliers;
+SELECT * FROM territories;
+
+--Print Structure of tables
+DESCRIBE categories;
+DESCRIBE customercustomerdemo;
+DESCRIBE customerdemographics;
+DESCRIBE customers;
+DESCRIBE employees;
+DESCRIBE employeeterritories;
+DESCRIBE orderdetails;
+DESCRIBE orders;
+DESCRIBE products;
+DESCRIBE region;
+DESCRIBE shippers;
+DESCRIBE suppliers;
+DESCRIBE territories;
+
+--Exit From Current User
+EXIT;
+
+
+
+Question 03:-
+
+-- Login as root user
+cmd> mysql -u root -p
+password: **********
+
+-- Show All the Databases
+SHOW DATABASES;
+
+--Create new Database
+CREATE DATABASE sales;
+
+-- Grant all Privileges to edac user 
+GRANT ALL PRIVILEGES ON sales.* TO edac@localhost;
+
+--Flush all Privileges
+FLUSH PRIVILEGES;
+
+-- Show All the Databases
+SHOW DATABASES;
+
+--Exit From Current User
+EXIT;
+
+
+-- Login as edac user
+cmd> mysql -u edac -p
+password: ****
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Check which user and database is currently in use   --> Shows: USER:edac@localhost and Database: NULL
+SELECT USER(), DATABASE();
+
+-- Activate sales Database
+USE sales;
+
+-- Check which user and database is currently in use   --> Shows: USER:edac@localhost and Database: sales
+SELECT USER(), DATABASE();
+
+--Importing data into database Using SOURCE command
+SOURCE E:\CDAC\Modules\Database_Technology\data\sales-db.sql
+
+-- print tables in current database
+SHOW TABLES;
+
+-- See the data Present in the Tables
+SELECT * FROM customers;
+SELECT * FROM orders;
+SELECT * FROM salespeople;
+
+
+--Print Structure of tables
+DESCRIBE customers;
+DESCRIBE orders;
+DESCRIBE salespeople;
+
+
+--Exit From Current User
+EXIT;

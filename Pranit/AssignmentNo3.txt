@@ -1,0 +1,213 @@
+## Module: Database-Technology
+# Assignment No. 03 Date: 22/10/2020
+# Sales Database
+-- Login as edac user
+cmd> mysql -u edac -p
+password: ****
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Check which user and database is currently in use   --> Shows: USER:edac@localhost and Database: NULL
+SELECT USER(), DATABASE();
+
+-- Activate Sales Database
+USE Sales;
+
+-- Check which user and database is currently in use   --> Shows: USER:sunbeam@localhost and Database: Sales
+SELECT USER(), DATABASE();
+
+--Q1. Write a select command that produces the order number, amount, and date forall rows in the Orders table.
+SELECT onum, amt, odate FROM orders;
+
+--Q 02. Write a query that displays the Salespeople table with the columns in the following order: city, sname,snum, comm.
+SELECT city, sname, snum, comm FROM Salespeople;
+
+--Q 03. Write a query that produces all rows from the Customers table for which the salesperson’s number is 1001.
+SELECT * FROM Customers WHERE snum=1001;
+
+--Q 04. Write a select command that produces the rating followed by the name of each customer in San Jose.
+SELECT rating, cname FROM Customers WHERE city = 'San Jose';
+
+--Q 05. Write a query that will produce the snum values of all salespeople from the Orders table (with the duplicate values suppressed).
+SELECT DISTINCT snum FROM orders;
+
+--Q 06. Write a query that will give you all orders for more than Rs. 1,000.
+SELECT * FROM orders WHERE amt>1000;
+
+--Q 07. Write a query that will give you the names and cities of all salespeople in London with a commission above 0.10.
+SELECT sname, city FROM salespeople WHERE city = 'London' AND comm > 0.10;
+
+--Q 08. Write a query on the Customers table whose output will exclude all customers with a rating <= 100, unless they are located in Rome.
+SELECT * FROM customers WHERE NOT(rating <= 100 AND city != 'Rome');
+
+--Q 09. What will be the output from the following query? Select * from Orders where (amt < 1000 OR NOT (odate = '1990-10-03' AND cnum > 2003));
++------+---------+------------+------+------+
+| onum | amt     | odate      | cnum | snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-04 | 2006 | 1001 |
+| 3010 |  309.95 | 1990-10-04 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-04 | 2006 | 1001 |
++------+---------+------------+------+------+
+
+--Q 10. What will be the output of the following query? Select * from Orders where NOT ((odate = '1990-10-03' OR snum >1006) AND amt >= 1500);
++------+---------+------------+------+------+
+| onum | amt     | odate      | cnum | snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-04 | 2006 | 1001 |
+| 3010 |  309.95 | 1990-10-04 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-04 | 2006 | 1001 |
++------+---------+------------+------+------+
+
+--Q 11. What is a simpler way to write this query? Select snum, sname, city, comm from Salespeople Where (comm >= .12 or comm <= .14);
+SELECT * FROM salespeople;
+
+--Q 12. Write a query that selects all of the customers serviced by Peel or Motika. (Hint:the snum field relates the two tables to one another. You can hard-code those values).
+SELECT onum,amt,odate, cnum,
+CASE
+WHEN snum=1001 THEN 'Peel'
+WHEN snum=1004 THEN 'Montika'
+END 'Sales Person'
+FROM orders WHERE snum = 1001 OR snum = 1004;
+
+--Q 13. Write a query that selects all orders except those with zeroes or NULLs in the amt field.
+SELECT * FROM Orders WHERE amt != 0 OR amt != NULL;
+
+
+
+
+
+
+## hr database
+
+-- Change Database to hr
+USE hr;
+
+
+--Q 01. Write a query to get unique department ID from employee table.
+
+SELECT DISTINCT department_id FROM employees;
+
+--Q 02. Write a query to get all employee details from the employee table order by first name, descending.
+
+SELECT * FROM employees ORDER BY first_name DESC;
+
+--Q 03. Write a query to get the employee ID, names (first_name, last_name), salary in ascending order of salary.
+
+SELECT employee_id, first_name, last_name, salary FROM employees ORDER BY salary;
+
+--Q 04. Display first name and join date of the employees who is either IT Programmer or Sales Man.
+
+SELECT first_name, HIRE_date FROM employees WHERE job_id = 'IT_PROG' OR job_id = 'SA_MAN';
+
+--Q 05. Display details of employee with ID 150 or 160.
+
+SELECT * FROM employees WHERE employee_id = 150 OR employee_id = 160;
+
+--Q 06. Display first name, salary, commission pct, and hire date for employees with salary less than 10000.
+
+SELECT first_name, salary, commission_pct, hire_date FROM employees WHERE salary<10000;
+
+--Q 07. Display employees where the first name or last name starts with S. Hint: % is wild card character used
+with LIKE operator. Solution: ... WHERE fname LIKE 'S%' OR lname LIKE 'S%';
+
+SELECT * FROM employees WHERE first_name LIKE 'S%' OR last_name LIKE 'S%';
+
+--Q 08. Display details of jobs in the descending order of the title.
+
+SELECT * FROM employees ORDER BY job_id DESC;
+
+--Q 09. Display details of the employees where commission percentage is null and salary in the range 5000 to
+10000 and department is 30.
+
+SELECT * FROM employees WHERE commission_pct = 0.00 AND (salary BETWEEN 5000 AND 10000) AND department_id = 30;
+
+--Q 10. Display employees first_name,email who are working in “Executive” department.
+
+select first_name,email from employees where department_id = 90;
+
+--Q 11. Display unique country_id from locations table.
+
+SELECT DISTINCT country_id FROM locations;
+
+--Q 12. Display all employees whose have job_id IT_PROG and FI_ACCOUNT.
+
+SELECT * FROM employees WHERE job_id = 'IT_PROG' OR job_id = 'FI_ACCOUNT';
+
+--Q 13. Display all countries in ascending order.
+
+SELECT country_name FROM countries ORDER BY country_name;
+
+
+##spj database
+
+-- Login as edac user
+cmd> mysql -u sunbeam -p
+password: *******
+
+-- Show All the Databases
+SHOW DATABASES;
+
+-- Check which user and database is currently in use   --> Shows: USER:sunbeam@localhost and Database: NULL
+SELECT USER(), DATABASE();
+
+-- Activate Sales Database
+USE spj;
+
+Q 01. Display the PNAME and COLOR from the P table for the CITY=”London”.
+
+SELECT pname, color FROM p WHERE city = 'London';
+
+Q 02. Display all the Suppliers from London.
+
+SELECT * FROM s WHERE city = 'London';
+
+Q 03. Display all the Suppliers from Paris or Athens.
+
+SELECT * FROM s WHERE city = 'Paris' OR city = 'Athens';
+
+Q 04. Display all the Projects in Athens.
+
+SELECT * FROM j WHERE city = 'Athens';
+
+Q 05. Display all the Partnames with the weight between 12 and 14 (inclusive of both).
+
+SELECT * FROM p WHERE (weight BETWEEN 12 AND 14);
+
+Q 06. Display all the Suppliers with a Status greater than or equal to 20.
+
+SELECT * FROM s WHERE status >= 20;
+
+Q 07. Display all the Suppliers except the Suppliers from London.
+
+SELECT * FROM s WHERE city != 'London';
+
+Q 08. Display only the Cities from where the Suppliers come from.
+
+SELECT city FROM s;
+
+Q 09. Display the Supplier table in the descending order of CITY.
+
+SELECT * FROM s ORDER BY city DESC;
+
+Q 10. Display the Part Table in the ascending order of CITY and within the city in the ascending order of Part names.
+
+SELECT * FROM p ORDER BY city, pname;
+
+Q 11. Display all the Suppliers with a status between 10 and 20.
+
+SELECT * FROM s WHERE (status BETWEEN 10 AND 20);
+
+Q 12. Display all the Parts and their Weight, which are not in the range of 10 and 15.
+
+SELECT pname, weight FROM p WHERE NOT (weight BETWEEN 10 AND 15);
