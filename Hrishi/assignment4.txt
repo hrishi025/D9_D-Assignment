@@ -1,0 +1,95 @@
+use northwind;
+
+mysql> show tables;
+
+--1.Write a query to get Product name and quantity/unit
+
+    SELECT productname "Product name",QuantityPerUnit "quantity/unit" FROM products; 
+
+--2. Write a query to get current Product list (Product ID and name)
+
+    SELECT productid,productname FROM products WHERE UnitsInStock != 0;
+
+--3. Write a query to get Product list (id, name, unit price) where current products cost less than $20.
+
+    SELECT productid,productname,unitprice FROM products WHERE unitprice < 20 AND UnitsInStock != 0;
+
+--4. Write a query to get Product list (id, name, unit price) where products cost between $15 and $25.
+
+    SELECT productid 'ID',productname 'Name',unitprice 'Price' FROM products 
+    WHERE unitprice BETWEEN 15 AND 25;
+
+--5. Write a query to get CategoryName and Description from the Categories table.
+
+    show tables;
+    SELECT * FROM categories;
+    DESCRIBE categories;
+    SELECT categoryname,description FROM categories;
+
+--6. Write a query to get ContactName, CompanyName, ContactTitle and Phone from the Customers table
+
+    DESCRIBE customers;
+    SELECT contactname,companyname,contacttitle,phone FROM customers;
+
+--7. Write a query to get EmployeeID, Title, FirstName, LastName, and Region from the Employees table.
+
+    DESCRIBE employees;
+    SELECT EmployeeID, Title, FirstName, LastName, Region FROM employees;
+
+--8. Write a query to get RegionID and RegionDescription from the Region table.
+
+    DESCRIBE region;
+    SELECT RegionID, RegionDescription FROM region;
+
+--9. Write a query to get CompanyName, Fax, Phone and HomePage from the Suppliers table.
+
+    DESCRIBE suppliers;
+    SELECT CompanyName, Fax, Phone and HomePage FROM suppliers;
+    
+--10. Write a query to get CategoryName and Description from the Categories table sorted by CategoryName.
+
+    SELECT CategoryName, Description FROM Categories ORDER BY CategoryName;
+    
+--11. Write a query to get ContactName, CompanyName, ContactTitle, and Phone from the Customers table sorted by Phone.
+
+    DESCRIBE customers;
+    SELECT ContactName, CompanyName, ContactTitle, Phone FROM Customers ORDER BY Phone;
+     
+--12. Create a report showing employees first and last names and hire dates sorted from newest to oldest employee.
+
+    DESCRIBE employees;
+    SELECT FirstName, LastName, HireDate FROM employees ORDER BY HireDate DESC;
+
+--13. Create a report showing Northwind's orders sorted by Freight from most expensive to cheapest. Show OrderID, OrderDate, ShippedDate, CustomerID, and Freight.
+
+    DESCRIBE orders;
+    SELECT OrderID, OrderDate, ShippedDate, CustomerID, Freight FROM orders ORDER BY Freight DESC;
+
+--14. Write a query to get CompanyName, Fax, Phone, HomePage and Country from the Suppliers table sorted by Country in descending order and then by CompanyName in ascending order.
+
+    SELECT CompanyName, Fax, Phone, HomePage, Country FROM Suppliers ORDER BY country DESC CompanyName ASC;
+    
+--15. Create a list of employees showing title, first name, and last name. Sort by Title in ascending order and then by LastName in descending order.
+
+    SELECT title, firstname, lastname FROM employees ORDER BY Title ASC, LastName DESC;
+
+--16. Create a report showing all the company names and contact names of Northwind's customers in Buenos Aires.
+
+    SELECT CompanyName,ContactName FROM customers where city = 'Buenos Aires';
+
+--17. Create a report showing the product name, unit price and quantity per unit of all products that are out of stock.
+
+    SELECT ProductName, UnitPrice, QuantityPerUnit WHERE UnitsInStock = 0;
+
+--18. Create a report showing the order date, shipped date, customer id, and freight of all orders placed on May 19, 1997.
+
+    SELECT OrderDate, ShippedDate, CustomerID, Freight FROM orders WHERE orderdate = '1997-05-19';
+
+--19. Create a report that shows the company name, contact name and fax number of all customers that have a fax number. 
+
+    SELECT CompanyName, ContactName, Fax FROM customers WHERE Fax IS NOT NULL; 
+
+--20. Create a report that shows the first and last name of all employees who do not report to anybody.
+
+    SELECT  FirstName, LastName, ReportsTo FROM employees WHERE ReportsTo IS NOT NULL;
+    

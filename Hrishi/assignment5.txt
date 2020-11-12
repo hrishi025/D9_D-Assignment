@@ -1,0 +1,151 @@
+mysql -u edac -pedac
+
+use sales;
+
+--1. Write a query that selects the first customer, in alphabetical order, whose name begins with G.
+
+    SELECT * FROM customers WHERE cname LIKE 'G%' ORDER BY cname LIMIT 1;
+                        --  OR
+    SELECT * FROM customers WHERE SUBSTRING(cname,1,1) = 'G' ORDER BY cname LIMIT 1;
+
+--2. Write a query that selects all customers whose names begin with the letter ‘C’.
+
+    SELECT * FROM customers WHERE cname LIKE 'C%';
+                        --  OR
+    SELECT * FROM customers WHERE SUBSTRING(cname,1,1) = 'C';
+
+--3. Write a query that counts all orders for October 3.
+
+    SELECT COUNT(onum) FROM orders WHERE MONTH(odate) = 10 AND DAY(odate) = 3;
+
+--4. Write a query that counts the number of different non-NULL city values in the Customers table.
+
+    SELECT COUNT(*) FROM customers WHERE city IS NOT NULL;
+
+--5. Find avarage commission of salespeople in London.
+
+    SELECT AVG(comm) "avg. commission" FROM salespeople WHERE city = 'london';
+
+--6. Extract cnum ,cname and city from customer table if and only if one or more of the customers in the table are located in San Jose.
+
+    SELECT  cnum ,cname, city FROM customers WHERE (city = 'san jose') >= 1;
+
+exit;
+
+mysql -u sunbeam -psunbeam
+
+use spj;
+
+--1. Display all the Suppliers, belonging to cities starting with the letter ‘L’.
+
+    SELECT * FROM s WHERE city LIKE 'L%';
+            --  OR
+    SELECT * FROM s WHERE SUBSTRING(city,1,1) = 'L';
+
+--2. Display all the Projects, with the third letter in JNAME as ‘n’.
+
+    SELECT * FROM j WHERE jname LIKE '__n%';
+            --  OR
+    SELECT * FROM j WHERE SUBSTRING(jname,3,1) = 'n';
+
+--3. Display all the Supplier names with the initial letter capital.
+
+    SELECT `S#`,CONCAT( UPPER(SUBSTRING(sname,1,1)), LOWER(SUBSTRING(sname,2)) )Sname, Status, City FROM s;
+
+--4. Display all the Supplier names in upper case.
+
+    SELECT `S#`, UPPER(SUBSTRING(sname,1)) Sname, Status, City FROM s;
+
+--5. Display all the Supplier names in lower case.
+
+    SELECT `S#`, LOWER(SUBSTRING(sname,1)) Sname, Status, City FROM s;
+
+--6. Display the Supplier names and the lengths of the names.
+
+    SELECT sname,LENGTH(sname) Length FROM s;
+
+--7. Display the current day (e.g. Thursday).
+
+    SELECT DAYNAME(NOW()) "Today's Day";
+
+--8. Display the minimum Status in the Supplier table.
+
+    SELECT MIN(status) "minimum status" FROM s;
+
+--9. Display the maximum Weight in the Parts table.
+
+    SELECT MAX(weight) "maximum weight" FROM p;
+
+--10. Display the average Weight of the Parts.
+
+    SELECT AVG(weight) "average weight" FROM p;
+
+--11. Display the total Quantity sold for part ‘P1’.
+
+    SELECT SUM(qty) FROM sp WHERE `p#` = 'p1';
+
+exit;
+
+mysql -u edac -pedac
+
+use hr;
+
+--1. Display first name and last name after converting the first letter of each name to upper case and the rest to lower case.
+
+    SELECT CONCAT( UPPER( SUBSTRING(FIRST_NAME,1,1) ), LOWER( SUBSTRING(FIRST_NAME,2) ) )Fname,
+    CONCAT( UPPER( SUBSTRING(LAST_NAME,1,1) ), LOWER( SUBSTRING(LAST_NAME,2) ) )Lname
+    FROM employees;
+
+--2. Display the first word in job title.
+
+    SELECT IF(INSTR(job_title,' ') = 0, job_title, SUBSTRING(job_title, 1, INSTR(job_title,' ')) ) "JOB TITLE" FROM jobs;
+        --  OR
+    SELECT SUBSTRING_INDEX(job_title, ' ', 1) "JOB TITLE" FROM jobs;
+
+--3. Display the length of first name for employees where last name contain character ‘b’ after 3rd position.
+
+    SELECT first_name,last_name,LENGTH (first_name) "Length of first name" FROM employees WHERE last_name LIKE '___%b%';
+
+--4. Display first name in upper case and email address in lower case for employees where the first name and email address are same irrespective of the case.
+
+    SELECT UPPER(first_name) Fname, LOWER(email) email FROM employees WHERE STRCMP(first_name,email) = 0;
+                        --  OR
+    SELECT UPPER(FIRST_NAME), LOWER(EMAIL) FROM EMPLOYEES WHERE UPPER(FIRST_NAME)= UPPER(EMAIL);
+
+--5. Display first name, salary, and round the salary to thousands.
+
+    SELECT first_name, salary, ROUND(salary,-3) FROM employees;
+
+--6. Display employee ID and the date on which he ended his previous job.
+
+    SELECT DISTINCT employee_id, MAX(end_date)
+    FROM job_history
+    GROUP BY employee_id;
+
+--7. Display first name and date of first salary of the employees.
+
+    SELECT first_name, LAST_DAY(hire_date) FROM employees;
+
+--8. Display first name and experience of the employees.
+
+    SELECT first_name, TIMESTAMPDIFF( YEAR, hire_date, NOW() ) "EXP (in YEARS)" FROM employees;
+
+--9. Display first name of employees who joined in 2001.
+
+    SELECT first_name FROM employees WHERE year(hire_date)=2001;
+
+--10. Display employees who joined in the current year.
+
+    SELECT * FROM employees WHERE SUBSTRING( hire_date, 1, 4) = YEAR(NOW());
+
+--11. Display the number of days between system date and 1st January 2011.
+
+    SELECT TIMESTAMPDIFF(DAY,'2011-01-01',NOW()) "DAYS FROM 1st Jan 2011 UPTO NOW"  FROM DUAL;
+
+--12. Display number of employees joined after 15th of the month.
+
+    SELECT COUNT(*) FROM employees WHERE SUBSTRING(hire_date,-2,2) > 15;
+
+--13. Display third highest salary of employees.
+
+    SELECT * FROM employees ORDER BY salary DESC LIMIT 2,1;

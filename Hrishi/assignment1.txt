@@ -1,0 +1,192 @@
+# Lab Assignment 1 
+
+Que. 1. Import hr-db.sql file into hr database
+
+    -- First of all we will have to create hr database.
+    -- Then we will have to give access of created database to user.
+
+    -- first do root login
+        mysql -u root -pmanager
+
+    -- check avaliable databases
+        show databases;
+
+    -- then Create a database with name hr
+        CREATE DATABASE hr;
+
+    -- grant database privilages to user edac@localhost
+        GRANT ALL PRIVILEGES ON hr.* TO edac@localhost;
+        
+    -- then flush privilages
+        FLUSH PRIVILEGES;
+
+    --then exit from root user
+        exit
+        
+    -- then do the user login
+        mysql -u edac -pedac
+
+    -- now check wether the database 'hr' is accessible or not
+        show databases;
+
+    -- we can see the hr database in the list so we can go ahead
+    -- as the database is accessible then we can import data into database
+    -- first of all select the created database
+        use hr;
+
+    -- now we will check tables in database --> it will show "Empty set" as we havent done anything onto it
+        show tables;
+
+    -- So, then to import the data into database write SOURCE and/path/address
+        SOURCE G:/CDAC/classwork/git/dbt/data/hr-db.sql
+
+    -- after importing data we can check the added tables and see its contents
+        show tables;
+
+    -- here we can see that all the tables are imported
+    -- to show tables we can use the following queries
+        SELECT * FROM countries;
+        SELECT * FROM departments;
+        SELECT * FROM employees;
+        SELECT * FROM job_history;
+        SELECT * FROM jobs;
+        SELECT * FROM locations;
+        SELECT * FROM regions;
+
+    -- to describe table
+        DESCRIBE countries;
+        DESCRIBE departments;
+        DESCRIBE employees;
+        DESCRIBE job_history;
+        DESCRIBE jobs;
+        DESCRIBE locations;
+        DESCRIBE regions;
+
+Que. 2. Import northwind-db.sql file into northwind database
+
+    -- First of all we will have to create hr database.
+    -- Then we will have to give access of created database to user.
+
+    -- first do root login
+        mysql -u root -pmanager
+
+    -- check avaliable databases
+        show databases;
+
+    -- then Create a database with name hr
+        CREATE DATABASE northwind;
+
+    -- grant database privilages to user edac@localhost
+        GRANT ALL PRIVILEGES ON northwind.* TO edac@localhost;
+        
+    -- then flush privilages
+        FLUSH PRIVILEGES;
+
+    --then exit from root user
+        exit
+        
+    -- then do the user login
+        mysql -u edac -pedac
+
+    -- now check wether the database 'northwind' is accessible or not
+        show databases;
+
+    -- we can see the northwind database in the list so we can go ahead
+    -- as the database is accessible then we can import data into database
+    -- first of all select the created database
+        use northwind;
+
+    -- now we will check tables in database --> it will show "Empty set" as we havent done anything onto it
+        show tables;
+
+    -- So, then to import the data into database write SOURCE and/path/address
+        SOURCE G:/CDAC/classwork/git/dbt/data/northwind-db.sql
+
+    -- after importing data we can check the added tables and see its contents
+        show tables;
+
+    -- here we can see that all the tables are imported
+    -- to show tables we can use the following queries
+        SELECT * FROM categories;
+        SELECT * FROM customercustomerdemo;
+        SELECT * FROM customerdemographics;
+        SELECT * FROM customers;
+        SELECT * FROM employees;
+        SELECT * FROM employeeterritories;
+        SELECT * FROM orderdetails;
+        SELECT * FROM orders;
+        SELECT * FROM products;
+        SELECT * FROM region;
+        SELECT * FROM shippers;
+        SELECT * FROM suppliers;
+        SELECT * FROM territories;
+
+
+    -- to describe table
+        DESCRIBE categories;
+        DESCRIBE customercustomerdemo;
+        DESCRIBE customerdemographics;
+        DESCRIBE customers;
+        DESCRIBE employees;
+        DESCRIBE employeeterritories;
+        DESCRIBE orderdetails;
+        DESCRIBE orders;
+        DESCRIBE products;
+        DESCRIBE region;
+        DESCRIBE shippers;
+        DESCRIBE suppliers;
+        DESCRIBE territories;
+
+Que. 3. Import sales-db.sql file into sales database
+
+    -- First of all we will have to create hr database.
+    -- Then we will have to give access of created database to user.
+
+    -- first do root login
+        mysql -u root -pmanager
+
+    -- check avaliable databases
+        show databases;
+
+    -- then Create a database with name hr
+        CREATE DATABASE sales;
+
+    -- grant database privilages to user edac@localhost
+        GRANT ALL PRIVILEGES ON sales.* TO edac@localhost;
+        
+    -- then flush privilages
+        FLUSH PRIVILEGES;
+
+    --then exit from root user
+        exit
+        
+    -- then do the user login
+        mysql -u edac -pedac
+
+    -- now check wether the database 'sales' is accessible or not
+        show databases;
+
+    -- we can see the sales database in the list so we can go ahead
+    -- as the database is accessible then we can import data into database
+    -- first of all select the created database
+        use sales;
+
+    -- now we will check tables in database --> it will show "Empty set" as we havent done anything onto it
+        show tables;
+
+    -- So, then to import the data into database write SOURCE and/path/address
+        SOURCE G:/CDAC/classwork/git/dbt/data/sales-db.sql
+
+    -- after importing data we can check the added tables and see its contents
+        show tables;
+
+    -- here we can see that all the tables are imported
+    -- to show tables we can use the following queries
+        SELECT * FROM customers;
+        SELECT * FROM orders;
+        SELECT * FROM salespeople;
+
+    -- to describe table
+        DESCRIBE customers;
+        DESCRIBE orders;
+        DESCRIBE salespeople;
