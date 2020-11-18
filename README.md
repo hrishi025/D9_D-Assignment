@@ -78,3 +78,7 @@ FETCH [ NEXT [ FROM ] ] cursor_name INTO variable_list;
 4. Close Cursor
 Close cursor_name;
 
+#VIEW
+* A view is a virtual table based on the result-set of an SQL statement.
+
+
