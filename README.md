@@ -85,3 +85,6 @@ Close cursor_name;
 ```SQL
 CREATE INDEX index_name ON table_name (column_list)
 ```
+```SQL
+SHOW INDEXES FROM employees;
+```
