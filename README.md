@@ -1,4 +1,6 @@
 # STORED PROCEDURE
+Stored Procedure is a routine. It contains multiple SQL statements along with programming constructs.
+
 ```SQL
 CREATE PROCEDURE sp_procedure_name
 BEGIN
