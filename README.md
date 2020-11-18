@@ -1,12 +1,12 @@
 # STORED PROCEDURE
-
+```SQL
 CREATE PROCEDURE sp_procedure_name
 BEGIN
 	BODY......
 END;
-
+```
 # STORED FUNCTION
-
+```SQL
 CREATE FUNCTION fn_function_name
 RETURNS TYPE
 [NOT] DETERMINISTIC
@@ -14,24 +14,22 @@ BEGIN
 	BODY
 	RETURN v_result;
 END;
-
+```
 # TRIGGER
-
+```SQL
 CREATE TRIGGER trig_name
 [ BEFORE | AFTER ] {insert | update | delete} ON table_name
 FOR EACH ROW
 BEGIN
    BODY...
 END;
-
+```
 # ERROR HANDELING
 
 * Declaring a handler
 ```SQL
 	DECLARE [END | CONTINUE ] HANDLER FOR condition_value statement;
 ```
-
-ACTION 
 
 # Differences between Stored Procedure and Function
 
