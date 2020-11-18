@@ -18,6 +18,18 @@ BEGIN
 END;
 ```
 # TRIGGER
+* Trigger is a statement that a system executes automatically when there is any modification to the database.
+Types of Triggers –
+
+We can define 6 types of triggers for each table:
+
+* AFTER INSERT activated after data is inserted into the table.
+* AFTER UPDATE: activated after data in the table is modified.
+* AFTER DELETE: activated after data is deleted/removed from the table.
+* BEFORE INSERT: activated before data is inserted into the table.
+* BEFORE UPDATE: activated before data in the table is modified.
+* BEFORE DELETE: activated before data is deleted/removed from the table.
+
 ```SQL
 CREATE TRIGGER trig_name
 [ BEFORE | AFTER ] {insert | update | delete} ON table_name
