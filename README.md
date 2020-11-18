@@ -18,6 +18,8 @@ BEGIN
 	RETURN v_result;
 END;
 ```
+* Deterministic when op is constant
+
 # TRIGGER
 *A trigger is a stored program invoked automatically in response to an event such as insert, update, or delete that occurs in the associated table
 ```SQL
