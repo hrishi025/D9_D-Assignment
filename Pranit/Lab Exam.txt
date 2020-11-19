@@ -1,0 +1,214 @@
+1.Open CMD for Mysql prompt gives following command step by step
+
+1. mysql --prompt="D9_Nitin_12345@mysql>" -u root -p
+
+2. create database dbt_exam;
+
+3. use dbt_exam;
+
+Copy and Paste following command in mysql prompt
+
+create table Manager
+(
+MANID CHAR(4),
+FNAME VARCHAR(20) NOT NULL,
+LNAME VARCHAR(20) NOT NULL,
+GENDER CHAR(10) NOT NULL,
+DOB date,
+SALARY INT NOT NULL,
+primary key(MANID)
+);
+
+create table Department
+(
+DEPTNO CHAR(4),
+DEPT_NAME VARCHAR(50) NOT NULL,
+MANID CHAR(4),
+LOCATION VARCHAR(25),
+primary key (DEPTNO),
+FOREIGN KEY(MANID) REFERENCES MANAGER(MANID)
+);
+
+create table SUPPLIER(
+DEPTNO CHAR(4),
+SUPID CHAR(4) PRIMARY KEY,
+FNAME VARCHAR(20) NOT NULL,
+LNAME VARCHAR(20) NOT NULL,
+GENDER enum('male','female'),
+SALARY INT NOT NULL,
+COMMISSION INT(4),
+FOREIGN KEY(DEPTNO) REFERENCES DEPARTMENT(DEPTNO)
+);
+
+create table CUSTOMER (
+CUSTOMERID  INT(3) AUTO_INCREMENT,
+FNAME VARCHAR(20) NOT NULL,
+LNAME VARCHAR(20) NOT NULL,
+COMPANY VARCHAR(20) NOT NULL,
+PRIMARY KEY(CUSTOMERID)
+);
+
+create table PRODUCT (
+PCODE INT(3) PRIMARY KEY,
+DEPTNO CHAR(4),
+SUPID CHAR(4),
+CUSTOMERID INT(3),
+PRODUCT_NAME VARCHAR(30) NOT NULL,
+PRICE INT NOT NULL,
+ITEM INT(3),
+SALESDATE date,
+FOREIGN KEY(SUPID) REFERENCES SUPPLIER(SUPID),
+FOREIGN KEY(DEPTNO) REFERENCES DEPARTMENT(DEPTNO),
+FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(CUSTOMERID)
+);
+
+
+insert into Manager values('M/01','Steven', 'Washokera', 'male', '1991-06-16', 5300000),
+('M/02','Cecilia', 'Mzole', 'female', '1992-06-16', 4300000),
+('M/03','Yassin', 'Mpare', 'male', '1998-06-16', 3300000),
+('M/04','Glady', 'Mtimbuka', 'female', '1991-09-19', 4100000),
+('M/05','James', 'Kanyala', 'male', '1993-01-11', 3500000
+);
+
+insert into Department values('D/01','Consumable', 'M/01', 'Posta'),
+('D/02','Cleaning Material', 'M/02', 'Posta'),
+('D/03','Food Court', 'M/03', 'Kariakoo'),
+('D/04','Stationary', 'M/04', 'Mnazi Mmoja'),
+('D/05','Beverage', 'M/05', 'Mnazi Mmoja'
+);
+
+insert into Supplier values('D/01', 'S/01','David', 'Joseph', 'male', 700000, 23000),
+('D/02', 'S/02','Bruce', 'Wills', 'male', 550000, 43000),
+('D/03', 'S/03','Michael', 'David', 'male', 527000, NULL),
+('D/04', 'S/04','Kelvin', 'Halt', 'male', 650000, 43000),
+('D/05', 'S/05','Sweetlove', 'Steven', 'female', 700000, 53000
+);
+
+insert into Customer (fname,lname,company) values('Jacob', 'Denis', 'Bongosatcom'),
+('Lameck', 'Goffrey', 'Bongosatcom'),
+('Frank', 'Desdery', 'IPPmedia'),
+('John', 'Justin', 'Airtel'),
+('Vicent', 'Victor', 'Bayport Financila'
+);
+
+insert into Product values(101, 'D/01', 'S/01', 1,  'Computer', 500000, 5, '2014/03/06'),
+(102, 'D/01', 'S/01', 1,  'Laptop', 900000, 15, '2014/03/06'),
+(103, 'D/02', 'S/02', 2,  'Toilet Paper',800, 450, '2014/03/06'),
+(104, 'D/03', 'S/03', 3,  'Stake Meat', 15000, 150, '2014/03/06'),
+(105, 'D/04', 'S/03', 4,  'Poutly Meat', 20000, 200, '2014/03/06'
+);
+
+
+
+2.Display details of the suppliers where commission percentage is null and salary in the range 500000 to 650000 and gender is male.
+
+SELECT * FROM supplier
+WHERE commission IS NULL AND salary BETWEEN 500000 AND 650000 AND gender = 'male';
+
+--select * from supplier where commission is NULL and salary between 500000 and 650000 and gender='male';
+
+3.Write a query to print customers full name(concating FNAME and LNAME column) in lowercase format. (e.g 'jacob denis')
+
+
+SELECT CONCAT(LOWER(FNAME),' ', LOWER(LNAME)) 'Full Name'
+FROM customer;
+
+--select concat(concat(lower(substring(FNAME,1,1)),substring(FNAME,2)),' ',concat(lower(substring(LNAME,1,1)),substring(LNAME,2))) as 'FULL NAME' from customer;
+
+4.Write a query that display location,counts of departments for each location in descending order.
+
+SELECT location, COUNT(deptno)
+FROM department
+GROUP BY location
+ORDER BY location DESC;
+
+--select location,count(*) from department group by location order by location desc; 
+
+5.Display suppliers where the first name or last name contain 3rd letter 'v'.
+
+SELECT FNAME, LNAME
+FROM supplier
+WHERE FNAME LIKE '__v%' OR LNAME LIKE '__v%';
+
+--select * from supplier where FNAME like '__v%' or LNAME like '__v%';
+
+6.Display all products whose price is greater than average price of all the products.
+
+SELECT * FROM product
+WHERE price > (SELECT AVG(price) FROM product);
+
+--select * from product where price>(select avg(price) from product);
+
+7.Write a query that gives manager firstname, customers firstname,product name and supplier firstname for each product along with the product code.(use join)
+
+SELECT m.fname MANAGER, c.fname CUSTOMER, p.product_name PRODUCT, p.pcode PRODUCTCODE, s.fname SUPPLIER
+FROM product p
+INNER JOIN supplier s ON p.supid = s.supid
+INNER JOIN customer c ON p.customerid = c.customerid
+INNER JOIN department d ON p.deptno = d.deptno
+INNER JOIN manager m ON d.manid = m.manid;
+
+--select p.pcode,m.fname,c.fname,p.product_name,s.fname from product p inner join customer c on p.customerid=c.customerid inner join supplier s
+     --on p.supid=s.supid inner join department d on p.deptno=d.deptno inner join manager m on d.manid=m.manid;
+
+8.Display departments manager details. considering only those departments which supplier has commission.(use sub-query)
+
+SELECT * FROM manager
+WHERE manid = ANY(SELECT manid FROM department WHERE deptno = ANY( SELECT deptno FROM supplier WHERE commission IS NOT NULL));
+
+--select * from manager where manid in (select manid from department where deptno IN (select deptno from supplier where commission is not NULL)); 
+
+9.Display age of managers in years( integer value).
+
+SELECT fname, TIMESTAMPDIFF(YEAR, DOB, NOW()) Age
+FROM manager;
+
+--select round((datediff(curdate(),dob)/365)) as age from manager;
+
+10.Display department number and count of product if and only if department contain more than 1 products and product items less than 20.
+
+SELECT d.deptno, COUNT(d.deptno)
+FROM department d
+WHERE d.deptno = ANY(SELECT deptno FROM product WHERE item > 1 AND item < 20)
+GROUP BY d.deptno;
+
+--SELECT deptno,count(*) FROM product WHERE item<20 GROUP BY deptno HAVING count(*)>1;
+
+11.Select department name and supplier fullname for only those departments whose location is 'Posta'.
+
+SELECT d.dept_name, CONCAT(LOWER(s.FNAME),' ', LOWER(s.LNAME)) 'Full Name'
+FROM department d
+INNER JOIN supplier s ON d.deptno = s.deptno
+WHERE d.location = 'Posta';
+
+--select d.dept_name,concat(s.fname,' ',s.lname) as 'supplier name' from department d inner join supplier s on d.deptno=s.deptno
+--     where d.deptno IN(select deptno from department where location='Posta');
+
+12.Display all department name and its product item count.(use join)
+
+Select dept_name, COUNT(pcode)
+FROM department d
+LEFT JOIN product p ON d.deptno = p.deptno
+GROUP BY dept_name;
+
+--select d.dept_name, sum(p.item) from department d left outer join product p on d.deptno=p.deptno group by d.dept_name;
+
+13.find suppliers with second highest salary.
+
+SELECT * FROM supplier
+WHERE salary = (SELECT salary FROM supplier GROUP BY salary ORDER BY salary DESC LIMIT 1,1) LIMIT 1;
+
+--SELECT * FROM supplier WHERE salary = (SELECT distinct salary FROM supplier ORDER BY salary DESC LIMIT 1,1);
+
+14.Find all customers which doesn't have any product.(use sub-query)'
+
+SELECT * FROM customer
+WHERE customerid NOT IN (SELECT customerid FROM product);
+
+--SELECT * FROM customer WHERE customerid != ALL(SELECT customerid FROM product);
+
+15.Change the data type of manager salary column to decimal.
+
+ALTER TABLE manager MODIFY salary DECIMAL(10, 2);
+
+-- ALTER TABLE manager MODIFY salary DECIMAL(7,2);
